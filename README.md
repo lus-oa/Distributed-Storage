@@ -1,4 +1,4 @@
-![image](https://github.com/lus-oa/Distributed-Storage/assets/122666739/0ca605e9-c9b3-4b01-8e4d-a1a3fa25fb58)# Distributed-Storage
+# Distributed-Storage
 分布式存储技术调研
 
 ## 对象存储
