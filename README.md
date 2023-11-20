@@ -183,7 +183,15 @@ RAMCloud使用基于**日志**的方式存储数据。
 1. 首先，相对于传统的DRAM分配方式，这种方法减少了Master的DRAM碎片，提高了DRAM的利用率。
 2. 其次，它让DRAM和磁盘中的数据格式完全一致，大大简化了系统的存储管理。但是，基于日志的存储方式引入了垃圾回收的开销。如果某个日志段（记作A）中包含大量无效的键值对，RAMCloud会使用清理线程将A中的有效键值对移动到新的日志段中，然后释放A所占用的空间。
 
+![image](https://github.com/lus-oa/Distributed-Storage/assets/122666739/b6af8cd2-260d-4656-87e4-117b7af1d8e4)
 
+RAMCloud使用主从备份(Primary-backup Replication)进行数据副本管理。
+
+左图展示了RAMCloud处理写操作的流程。
+- 客户端将键值写请求发送至对应的Master。
+- Master 首先将新键值追加至对应的日志段并更新散列表，然后将该键值对广播至对应的 Backup。
+- Backup 收到键值对时将其写入本地的非易失性缓冲区(如持久性内存)中，并回复 Master。
+- 当 Master 收到所有的回复时，即可保证数据被可靠地存储在所有副本中，此时 Master 就能回复客户端，表示该写操作已成功完成。
 
 
 
